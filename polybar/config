@@ -1,0 +1,274 @@
+;==========================================================
+;
+;
+;   ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗
+;   ██╔══██╗██╔═══██╗██║  ╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗
+;   ██████╔╝██║   ██║██║   ╚████╔╝ ██████╔╝███████║██████╔╝
+;   ██╔═══╝ ██║   ██║██║    ╚██╔╝  ██╔══██╗██╔══██║██╔══██╗
+;   ██║     ╚██████╔╝███████╗██║   ██████╔╝██║  ██║██║  ██║
+;   ╚═╝      ╚═════╝ ╚══════╝╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
+;
+;
+;   To learn more about how to configure Polybar
+;   go to https://github.com/polybar/polybar
+;
+;   The README contains a lot of information
+;
+;==========================================================
+
+[colors]
+
+background = #151515
+green = #8C977D
+color2 = #D9BC8C
+color3 = #8C977D
+
+;  _                    
+; | |__   __ _ _ __ ___ 
+; | '_ \ / _` | '__/ __|
+; | |_) | (_| | |  \__ \
+; |_.__/ \__,_|_|  |___/
+
+[bar/base]
+font-0=JetBrains Mono:size=11:antialias=true;3
+font-1=fontawesome:style=Regular:size=13:antialias=true;3
+font-2=feather:style=Solid:size=11:antialias=true;3
+font-3=IPAGothic:style=Regular:size=11:antialias=true;3
+#border-size = 3
+#border-color = ${colors.color3}
+
+height = 45
+#radius = 6
+;Works very well with a ;radius like this! Put it on every bar.
+
+background = ${colors.background}
+override-redirect=true
+offset-y = 10
+
+;wm-restack = i3
+
+[bar/i3]
+inherit = bar/base
+width = 35%
+
+foreground = ${colors.color1}
+
+offset-x = 10
+offset-y = 5
+
+modules-left = workspaces 
+modules-center = xwindow
+
+
+[bar/music]
+inherit = bar/base
+enable-ipc = true
+width = 28%
+
+foreground = ${colors.color2}
+offset-x = 55%
+offset-y = 5
+modules-left = mpd
+
+[bar/tray]
+inherit = bar/base
+width = 15%
+
+padding-right = 0
+offset-x = 84.4%
+offset-y = 5
+;tray-position = right
+
+modules-left = pulseaudio battery time
+
+;-------------------------------------------------------------------------
+;-------------------------------------------------------------------------
+;-------------------------------------------------------------------------
+
+[module/workspaces]
+type = internal/xworkspaces
+pin-workspaces = true
+icon-default = 
+icon-0 = 0;
+icon-1 = 1;
+icon-2 = 2;
+icon-3 = 3;
+icon-4 = 4;
+icon-5 = 5;
+icon-6 = 6;
+format = <label-state>
+label-active = 
+label-occupied = 
+label-urgent = %icon% 
+label-empty = %icon% 
+label-active-foreground = ${colors.background}
+label-occupied-background = ${colors.color3}
+label-occupied-foreground = ${colors.background}
+label-urgent-foreground = ${colors.color2}
+label-empty-foreground = ${colors.background}
+label-empty-background = ${colors.color3}
+label-active-background = ${colors.color3}
+label-active-padding = 2
+label-urgent-padding = 2
+label-occupied-padding = 2
+label-empty-padding = 2
+
+[module/xwindow]
+type = internal/xwindow
+label-foreground = ${colors.color3} 
+label-background = ${colors.background} 
+label-padding = 0
+
+[module/space]
+type = custom/text
+content = " "
+content-foreground = ${colors.color3}
+content-padding = 1
+
+[module/terminal]
+type = custom/text
+content = 
+content-foreground = ${colors.color3}
+click-left = alacritty
+content-padding = 1
+
+[module/battery]
+type = internal/battery
+label-charging = " %percentage% % "
+label-charging-foreground = ${colors.background}
+label-charging-background = ${colors.color3}
+label-discharging-foreground = ${colors.background}
+label-discharging-background = ${colors.color3}
+label-discharging = " %percentage%% "
+label-full = " %percentage%% " 
+label-full-foreground = ${colors.background}
+label-full-background = ${color.color3}
+
+
+[module/mpd]
+type = internal/mpd
+host = 127.0.0.1
+port = 6600
+format-online =  "<icon-prev> <toggle> <icon-next>  <label-time> <label-song> "
+format-online-padding = 2
+format-online-background = ${colors.color3}
+format-online-foreground = ${colors.background}
+label-song-foreground = ${colors.color3}
+label-song-background = ${colors.background}
+label-song-padding = 2
+label-time-foreground = ${colors.color3}
+label-time-background = ${colors.background}
+label-time-padding = 1
+
+format-offline = <label-offline>
+label-offline =  offline
+format-offline-padding = 2
+format-offline-foreground = ${colors.color3}
+format-offline-background = ${colors.background}
+
+bar-progress-width = 35
+bar-progress-indicator = |
+bar-progress-fill = ─
+bar-progress-empty = ─
+
+icon-prev = 
+icon-stop = 
+icon-play = 
+icon-pause = 
+icon-next = 
+
+label-song-maxlen = 30
+label-song-ellipsis = false
+
+[module/time]
+type = internal/date
+interval = 10
+format-margin = 1.5
+
+time = "%H:%M"
+date = "%d %b"
+
+label = %date%, %time%
+label-foreground = ${colors.color3}
+label-background = ${colors.background}
+
+[module/pulseaudio]
+type = internal/pulseaudio
+
+format-volume-padding = 1
+format-volume = <ramp-volume> <label-volume>
+label-volume = %percentage:3:3%%
+format-volume-background = ${colors.color3}
+format-volume-foreground = ${colors.background}
+use-ui-max = false
+interval = 5
+
+ramp-volume-0 = ""
+ramp-volume-1 = ""
+ramp-volume-2 = ""
+
+
+label-muted = "Off"   
+label-muted-background = ${colors.color3}
+label-muted-foreground = ${colors.background}
+label-muted-padding = 2
+
+;Spotify modules
+
+[module/previous]
+type = custom/script
+format-font = 3
+format-padding = 2
+format-background = ${colors.color2}
+format-foreground = ${colors.background}
+exec = echo "  "
+exec-if = "pgrep spotify"
+click-left = "playerctl previous"
+
+
+[module/next]
+type = custom/script
+format-font = 3
+format-padding = 2
+format-background = ${colors.color2}
+format-foreground = ${colors.background}
+exec = echo "  "
+exec-if = "pgrep spotify"
+click-left = "playerctl next"
+
+[module/playpause]
+type = custom/script
+exec = spotifystatus
+exec-if = "pgrep spotify"
+format-font = 3
+format-background = ${colors.color2}
+format-foreground = ${colors.background}
+format-padding = 1
+tail = true
+interval = 0
+click-left = "playerctl -p spotify play-pause"
+
+
+[module/spotify]
+type = custom/script
+exec = playerctl -p spotify metadata --format '{{artist}}: {{title}}'
+exec-if = "pgrep spotify"
+format-padding = 2
+tail = true
+interval = 1
+
+[settings]
+screenchange-reload = true
+;compositing-background = xor
+;compositing-background = screen
+;compositing-foreground = source
+;compositing-border = over
+;pseudo-transparency = true
+
+[global/wm]
+margin-top = 0
+margin-bottom = 0
+
+; vim:ft=dosini
+                      
+
