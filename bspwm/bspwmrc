@@ -2,7 +2,7 @@
 
 
 # Startups
-$HOME/.config/bspwm/polybar/launch.sh &
+$HOME/.config/polybar/launch.sh &
 xsetroot -cursor_name left_ptr &
 sxhkd -c $HOME/.config/bspwm/sxhkdrc &
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
